@@ -1,8 +1,8 @@
 public class LectureInfo {
     private String date;                        // date lecture was on
     private String dayOfWeek;                   // day lecture was on
-    private int possiblePoints;                 // total possible points
-    private int earnedPoints;                   // total points earned
+    private int possiblePoints;                 // daily possible points
+    private int earnedPoints;                   // daily points earned
 
 
     public LectureInfo(String date, String dayOfWeek, int possiblePoints, int earnedPoints) {
@@ -29,7 +29,7 @@ public class LectureInfo {
         return earnedPoints;
     }
 
-    public void updatedEarnedPoints(int earnedPoints) {
+    public void updateDailyEarnedPoints(int earnedPoints) {
         this.earnedPoints = earnedPoints;
     }
 

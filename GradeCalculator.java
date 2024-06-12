@@ -25,31 +25,48 @@ public class GradeCalculator {
     // the heart of the program
     private static void runDialogue() {
         In in = new In();
-        StdOut.print("Enter lecture number: ");
+        StdOut.print("Lecture number: ");
         while (!in.isEmpty()) {
             int currentDay = in.readInt();
-            StdOut.print("Enter points earned for the day:");
-            dailyEarnedPoints = in.readInt();
             li = lectures.get(currentDay); // gets the lecture on the inserted day
 
-            // retrieves points possible on inserted day
-            // (fridays may have 8, whereas other days only have 2)
-            totalPossiblePoints += li.getPossiblePoints();
-            totalEarnedPoints += dailyEarnedPoints;
-            li.updatedEarnedPoints(dailyEarnedPoints);
+            StdOut.println("\nLECTURE ENTERED: " + li.getDate() + ", " + li.getDayOfWeek());
+            StdOut.print("Points earned for the day: ");
+            dailyEarnedPoints = in.readInt();
+            li.updateDailyEarnedPoints(dailyEarnedPoints);
 
+            updateTotalEarnedPoints(currentDay);
+            updateTotalPossiblePoints(currentDay);
 
             StdOut.println(
-                    "\n\nCurrent In-Class Work Grade: " +
+                    "\nCurrent In-Class Work Grade: " +
                             ((double) totalEarnedPoints / totalPossiblePoints) * 100 +
                             "%"
             );
 
             StdOut.print("Enter another day? (y or n): ");
             if (in.readString().equalsIgnoreCase("y")) {
+                StdOut.println("-------------\n\n");
                 runDialogue();
             }
-            else return;
+            break;
+        }
+    }
+
+    // retrieves points possible in entirety
+    // (fridays may have 8, whereas other days only have 2)
+    private static void updateTotalPossiblePoints(int currentDay) {
+        for (Map.Entry<Integer, LectureInfo> entry : lectures.entrySet()) {
+            LectureInfo li = entry.getValue();
+            totalPossiblePoints += li.getPossiblePoints();
+        }
+    }
+
+    // update total earned points
+    private static void updateTotalEarnedPoints(int currentDay) {
+        for (Map.Entry<Integer, LectureInfo> entry : lectures.entrySet()) {
+            LectureInfo li = entry.getValue();
+            totalEarnedPoints += li.getEarnedPoints();
         }
     }
 
@@ -63,7 +80,7 @@ public class GradeCalculator {
             int lectureNumber = entry.getKey();
             LectureInfo li = entry.getValue();
 
-            out.printf("%d, %s, %s, %d, %d \n", lectureNumber, li.getDate(), li.getDayOfWeek(), li.getPossiblePoints(), li.getEarnedPoints());
+            out.printf("%d,%s,%s,%d,%d\n", lectureNumber, li.getDate(), li.getDayOfWeek(), li.getPossiblePoints(), li.getEarnedPoints());
         }
     }
 
