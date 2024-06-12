@@ -13,9 +13,12 @@ public class GradeCalculator {
     private static int totalEarnedPoints;       // sum of all points earned up to current date
     private static int dailyEarnedPoints = 0;   // points earned on current day
     private static LectureInfo li;              // lecture object containing all the lecture info
+    private static double inClassGrade;
 
 
     public static void main(String[] args) {
+        inClassGrade = ((double) totalEarnedPoints / totalPossiblePoints) * 100;
+
         initializeLectures();
         runDialogue();
         saveLectures();
@@ -25,7 +28,9 @@ public class GradeCalculator {
     // the heart of the program
     private static void runDialogue() {
         In in = new In();
+        StdOut.println("Current In-Class Work Grade: " + inClassGrade);
         StdOut.print("Lecture number: ");
+
         while (!in.isEmpty()) {
             int currentDay = in.readInt();
             li = lectures.get(currentDay); // gets the lecture on the inserted day
@@ -37,11 +42,7 @@ public class GradeCalculator {
 
             updateTotals(dailyEarnedPoints, li.getPossiblePoints());
 
-            StdOut.println(
-                    "\nCurrent In-Class Work Grade: " +
-                            ((double) totalEarnedPoints / totalPossiblePoints) * 100 +
-                            "%"
-            );
+            StdOut.println("\nUpdated In-Class Work Grade: " + inClassGrade + "%");
 
             StdOut.print("Enter another day? (y or n): ");
             if (in.readString().equalsIgnoreCase("y")) {
