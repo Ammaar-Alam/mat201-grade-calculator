@@ -1,16 +1,11 @@
 public class LectureInfo {
+    private String date;                        // date lecture was on
+    private String dayOfWeek;                   // day lecture was on
+    private int possiblePoints;                 // total possible points
+    private int earnedPoints;                   // total points earned
 
-    private String date;
-    private String dayOfWeek;
-    private int possiblePoints;
-    private int earnedPoints;
 
-    public LectureInfo(
-        String date,
-        String dayOfWeek,
-        int possiblePoints,
-        int earnedPoints
-    ) {
+    public LectureInfo(String date, String dayOfWeek, int possiblePoints, int earnedPoints) {
         this.date = date;
         this.dayOfWeek = dayOfWeek;
         this.possiblePoints = possiblePoints;
@@ -18,6 +13,7 @@ public class LectureInfo {
     }
 
     public int getPossiblePoints() {
+
         return possiblePoints;
     }
 
@@ -33,10 +29,8 @@ public class LectureInfo {
         return earnedPoints;
     }
 
-    public int updatePoints(int points) {
-        earnedPoints += points;
-        return earnedPoints;
-    }
 
-    public static void main(String[] args) {}
+    public static void main(String[] args) {
+
+    }
 }

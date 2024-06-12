@@ -7,10 +7,12 @@ import java.util.Map;
 
 public class GradeCalculator {
 
-    private static Map<Integer, LectureInfo> lectures = new HashMap<>();
-    private static int totalPossiblePoints = 0;
-    private static int currentPoints = 0;
-    private static LectureInfo li;
+    private static Map<Integer, LectureInfo> lectures = new
+            HashMap<>();                        // hashmap of all indexed lectures
+    private static int totalPossiblePoints = 0; // sum of all points up to the current date
+    private static int totalEarnedPoints;       // sum of all points earned up to current date
+    private static int dailyEarnedPoints = 0;   // points earned on current day
+    private static LectureInfo li;              // lecture object containing all the lecture info
 
 
     public static void main(String[] args) {
@@ -27,16 +29,19 @@ public class GradeCalculator {
         while (!in.isEmpty()) {
             int currentDay = in.readInt();
 
-            StdOut.print("Enter points earned for the day: ");
-            int earnedPoints = in.readInt();
-            currentPoints += earnedPoints;
-            li = lectures.get(currentDay);
+            StdOut.print("Enter points earned for the day: \n\n");
+            dailyEarnedPoints = in.readInt();
+            totalEarnedPoints += dailyEarnedPoints;
+            li = lectures.get(currentDay); // gets the lecture on the inserted day
 
+            // retrieves points possible on inserted day
+            // (fridays may have 8, whereas other days only have 2)
             totalPossiblePoints += li.getPossiblePoints();
+
 
             StdOut.println(
                     "Current In-Class Work Grade: " +
-                            ((double) earnedPoints / totalPossiblePoints) * 100 +
+                            ((double) totalEarnedPoints / totalPossiblePoints) * 100 +
                             "%"
             );
 
@@ -72,11 +77,10 @@ public class GradeCalculator {
             lectures.put(Integer.parseInt(fields[0]), new LectureInfo(fields[1], fields[2], Integer.parseInt(fields[3]), Integer.parseInt(fields[4])));
         }
 
-        /**
+         /**
          * BELOW IS ALL THE OLD CODE SNIPPETS I NO LONGER USED
          * (i'm keeping them because i'm a hoarder even though they're in my git repo)
-          */
-
+         */
 
         //        lectures.put(1, new LectureInfo("June 3", "Monday", 2, 0));
         //        lectures.put(2, new LectureInfo("June 4", "Tuesday", 2, 0));
