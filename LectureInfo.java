@@ -4,7 +4,6 @@ public class LectureInfo {
     private int possiblePoints;                 // daily possible points
     private int earnedPoints;                   // daily points earned
 
-
     public LectureInfo(String date, String dayOfWeek, int possiblePoints, int earnedPoints) {
         this.date = date;
         this.dayOfWeek = dayOfWeek;

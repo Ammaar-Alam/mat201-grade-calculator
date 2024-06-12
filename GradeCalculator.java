@@ -7,8 +7,10 @@ import java.util.Map;
 
 public class GradeCalculator {
 
-    private static Map<Integer, LectureInfo> lectures = new
-            HashMap<>();                        // hashmap of all indexed lectures
+    private static Map<Integer, LectureInfo> lectures
+            = new HashMap<>();                  // hashmap of all indexed lectures
+    private static Map<Integer, Double> grades
+            = new HashMap<>();                  // for now, only implementing participation grade
     private static int totalPossiblePoints = 0; // sum of all points up to the current date
     private static int totalEarnedPoints;       // sum of all points earned up to current date
     private static int dailyEarnedPoints = 0;   // points earned on current day
@@ -17,8 +19,6 @@ public class GradeCalculator {
 
 
     public static void main(String[] args) {
-        inClassGrade = ((double) totalEarnedPoints / totalPossiblePoints) * 100;
-
         initializeLectures();
         runDialogue();
         saveLectures();
@@ -28,7 +28,7 @@ public class GradeCalculator {
     // the heart of the program
     private static void runDialogue() {
         In in = new In();
-        StdOut.println("Current In-Class Work Grade: " + inClassGrade);
+        StdOut.println("Current In-Class Work Grade: " + inClassGrade + "%");
         StdOut.print("Lecture number: ");
 
         while (!in.isEmpty()) {
@@ -38,9 +38,12 @@ public class GradeCalculator {
             StdOut.println("\nLECTURE ENTERED: " + li.getDate() + ", " + li.getDayOfWeek());
             StdOut.print("Points earned for the day: ");
             dailyEarnedPoints = in.readInt();
-            li.updateDailyEarnedPoints(dailyEarnedPoints);
 
+            li.updateDailyEarnedPoints(dailyEarnedPoints);
             updateTotals(dailyEarnedPoints, li.getPossiblePoints());
+
+            inClassGrade = ((double) totalEarnedPoints / totalPossiblePoints) * 100;
+            grades.put(1, inClassGrade); // update grade hashmap
 
             StdOut.println("\nUpdated In-Class Work Grade: " + inClassGrade + "%");
 
@@ -63,6 +66,9 @@ public class GradeCalculator {
     private static void saveLectures() {
         Out out = new Out("lectures.csv");
 
+        out.println("inClassGrade,psetGrade,midterms,final");
+        out.println(grades.get(1));
+
         out.println("LectureNumber,date,dayOfWeek,possiblePoints,earnedPoints"); // header
         for (Map.Entry<Integer, LectureInfo> entry : lectures.entrySet()) {
             int lectureNumber = entry.getKey();
@@ -76,6 +82,9 @@ public class GradeCalculator {
     // reads the csv file in the project folder to make the hashmap with all the lecture info
     private static void initializeLectures() {
         In in = new In("lectures.csv");
+        in.readLine(); // grades header
+        grades.put(1,in.readDouble());
+        in.readLine(); // lecture info header
         in.readLine();
         while (!in.isEmpty()) {
             String line = in.readLine();

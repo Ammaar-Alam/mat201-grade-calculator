@@ -1,12 +1,14 @@
+inClassGrade,psetGrade,midterms,final
+0.0
 LectureNumber,date,dayOfWeek,possiblePoints,earnedPoints
 1,June 3,Monday,2,1
 2,June 4,Tuesday,2,2
-3,June 5,Wednesday,2,0
-4,June 6,Thursday,2,0
-5,June 7,Friday,8,0
-6,June 10,Monday,2,0
-7,June 11,Tuesday,2,0
-8,June 12,Wednesday,2,0
+3,June 5,Wednesday,2,2
+4,June 6,Thursday,2,2
+5,June 7,Friday,8,4
+6,June 10,Monday,2,2
+7,June 11,Tuesday,2,2
+8,June 12,Wednesday,2,2
 9,June 13,Thursday,2,0
 10,June 14,Friday,0,0
 11,June 17,Monday,2,0
