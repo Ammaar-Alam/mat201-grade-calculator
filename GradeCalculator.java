@@ -28,19 +28,19 @@ public class GradeCalculator {
         StdOut.print("Enter lecture number: ");
         while (!in.isEmpty()) {
             int currentDay = in.readInt();
-
-            StdOut.print("Enter points earned for the day: \n\n");
+            StdOut.print("Enter points earned for the day:");
             dailyEarnedPoints = in.readInt();
-            totalEarnedPoints += dailyEarnedPoints;
             li = lectures.get(currentDay); // gets the lecture on the inserted day
 
             // retrieves points possible on inserted day
             // (fridays may have 8, whereas other days only have 2)
             totalPossiblePoints += li.getPossiblePoints();
+            totalEarnedPoints += dailyEarnedPoints;
+            li.updatedEarnedPoints(dailyEarnedPoints);
 
 
             StdOut.println(
-                    "Current In-Class Work Grade: " +
+                    "\n\nCurrent In-Class Work Grade: " +
                             ((double) totalEarnedPoints / totalPossiblePoints) * 100 +
                             "%"
             );

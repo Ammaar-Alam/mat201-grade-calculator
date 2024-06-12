@@ -29,6 +29,9 @@ public class LectureInfo {
         return earnedPoints;
     }
 
+    public void updatedEarnedPoints(int earnedPoints) {
+        this.earnedPoints = earnedPoints;
+    }
 
     public static void main(String[] args) {
 
