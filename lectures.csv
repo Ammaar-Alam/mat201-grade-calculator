@@ -1,6 +1,6 @@
 LectureNumber,date,dayOfWeek,possiblePoints,earnedPoints
-1,June 3,Monday,2,0
-2,June 4,Tuesday,2,0
+1,June 3,Monday,2,1
+2,June 4,Tuesday,2,2
 3,June 5,Wednesday,2,0
 4,June 6,Thursday,2,0
 5,June 7,Friday,8,0

@@ -35,8 +35,7 @@ public class GradeCalculator {
             dailyEarnedPoints = in.readInt();
             li.updateDailyEarnedPoints(dailyEarnedPoints);
 
-            updateTotalEarnedPoints(currentDay);
-            updateTotalPossiblePoints(currentDay);
+            updateTotals(dailyEarnedPoints, li.getPossiblePoints());
 
             StdOut.println(
                     "\nCurrent In-Class Work Grade: " +
@@ -53,21 +52,9 @@ public class GradeCalculator {
         }
     }
 
-    // retrieves points possible in entirety
-    // (fridays may have 8, whereas other days only have 2)
-    private static void updateTotalPossiblePoints(int currentDay) {
-        for (Map.Entry<Integer, LectureInfo> entry : lectures.entrySet()) {
-            LectureInfo li = entry.getValue();
-            totalPossiblePoints += li.getPossiblePoints();
-        }
-    }
-
-    // update total earned points
-    private static void updateTotalEarnedPoints(int currentDay) {
-        for (Map.Entry<Integer, LectureInfo> entry : lectures.entrySet()) {
-            LectureInfo li = entry.getValue();
-            totalEarnedPoints += li.getEarnedPoints();
-        }
+    private static void updateTotals(int dailyEarnedPoints, int possiblePoints) {
+        totalEarnedPoints += dailyEarnedPoints;
+        totalPossiblePoints += possiblePoints;
     }
 
     // saves the updated lectures files to a new csv (overwriting existing one)
@@ -82,6 +69,7 @@ public class GradeCalculator {
 
             out.printf("%d,%s,%s,%d,%d\n", lectureNumber, li.getDate(), li.getDayOfWeek(), li.getPossiblePoints(), li.getEarnedPoints());
         }
+        out.close();
     }
 
     // reads the csv file in the project folder to make the hashmap with all the lecture info
@@ -129,5 +117,22 @@ public class GradeCalculator {
         //        lectures.put(28, new LectureInfo("July 10", "Wednesday", 2, 0));
         //        lectures.put(29, new LectureInfo("July 11", "Thursday", 2, 0));
         //        lectures.put(30, new LectureInfo("July 12", "Friday", 8, 0)); // worksheet 3
+
+        //        // retrieves points possible in entirety
+        //        // (fridays may have 8, whereas other days only have 2)
+        //        private static void updateTotalPossiblePoints(int currentDay) {
+        //            for (Map.Entry<Integer, LectureInfo> entry : lectures.entrySet()) {
+        //                LectureInfo li = entry.getValue();
+        //                totalPossiblePoints += li.getPossiblePoints();
+        //            }
+        //        }
+        //
+        //        // update total earned points
+        //        private static void updateTotalEarnedPoints(int currentDay) {
+        //            for (Map.Entry<Integer, LectureInfo> entry : lectures.entrySet()) {
+        //                LectureInfo li = entry.getValue();
+        //                totalEarnedPoints += li.getEarnedPoints();
+        //            }
+        //        }
     }
 }
