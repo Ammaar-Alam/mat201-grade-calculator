@@ -56,7 +56,7 @@ public class GradeCalculator {
     // saves the updated lectures files to a new csv (overwriting existing one)
     // this allows for the program to be exited while saving the updated information
     private static void saveLectures() {
-        Out out = new Out("lectures1.csv");
+        Out out = new Out("lectures.csv");
 
         out.println("LectureNumber,date,dayOfWeek,possiblePoints,earnedPoints"); // header
         for (Map.Entry<Integer, LectureInfo> entry : lectures.entrySet()) {
