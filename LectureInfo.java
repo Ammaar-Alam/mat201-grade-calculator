@@ -21,6 +21,14 @@ public class LectureInfo {
         return possiblePoints;
     }
 
+    public String getDate() {
+        return date;
+    }
+
+    public String getDayOfWeek() {
+        return dayOfWeek;
+    }
+
     public int getEarnedPoints() {
         return earnedPoints;
     }
