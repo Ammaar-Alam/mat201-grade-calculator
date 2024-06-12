@@ -83,7 +83,7 @@ public class GradeCalculator {
     private static void initializeLectures() {
         In in = new In("lectures.csv");
         in.readLine(); // grades header
-        grades.put(1,in.readDouble());
+        grades.put(1, in.readDouble());
         in.readLine(); // lecture info header
         in.readLine();
         while (!in.isEmpty()) {
@@ -91,6 +91,8 @@ public class GradeCalculator {
             String[] fields = line.split(",");
             lectures.put(Integer.parseInt(fields[0]), new LectureInfo(fields[1], fields[2], Integer.parseInt(fields[3]), Integer.parseInt(fields[4])));
         }
+         inClassGrade = grades.get(1);
+    }
 
          /**
          * BELOW IS ALL THE OLD CODE SNIPPETS I NO LONGER USED
@@ -144,5 +146,4 @@ public class GradeCalculator {
         //                totalEarnedPoints += li.getEarnedPoints();
         //            }
         //        }
-    }
 }
