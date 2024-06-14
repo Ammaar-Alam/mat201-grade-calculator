@@ -102,7 +102,7 @@ public class GradeCalculator {
         out.println("totalEarnedPSET,totalPossiblePSET,psetGrade");
         out.println(totalEarnedPSET + " " + totalPossiblePSET + " " + psetGrade);
         out.println("midtermEarned,midtermPossible,midtermGrade");
-        out.println("0 0 0");   // Placeholder for midterm grades
+        out.println("0 0 0");   // PLACEHOLDER for midterm grades
         out.close();
     }
 
@@ -119,7 +119,7 @@ public class GradeCalculator {
 
     private static void initializeLectures() {
         In in = new In("lectures.csv");
-        in.readLine(); // Skip header
+        in.readLine(); // skipping header
         while (!in.isEmpty()) {
             String line = in.readLine();
             String[] fields = line.split(",");
@@ -133,7 +133,7 @@ public class GradeCalculator {
 
     private static void initializePSETS() {
         In in = new In("psets.csv");
-        in.readLine(); // Skip header
+        in.readLine(); // skipping header
         int psetNumber = 1;
         while (!in.isEmpty()) {
             String line = in.readLine();
@@ -146,21 +146,21 @@ public class GradeCalculator {
 
     private static void initializeGrades() {
         In in = new In("grades.csv");
-        in.readLine(); // Skip header
+        in.readLine(); // skip in-class grades header
         String line = in.readLine();
         String[] fields = line.split(" ");
         totalEarnedPoints = Double.parseDouble(fields[0]);
         totalPossiblePoints = Double.parseDouble(fields[1]);
         inClassGrade = Double.parseDouble(fields[2]);
 
-        in.readLine(); // Skip header
+        in.readLine(); // skip pset grades header
         line = in.readLine();
         fields = line.split(" ");
         totalEarnedPSET = Double.parseDouble(fields[0]);
         totalPossiblePSET = Double.parseDouble(fields[1]);
         psetGrade = Double.parseDouble(fields[2]);
 
-        in.readLine(); // Skip header
-        // Placeholder for midterm grades, we are not using them yet.
+        in.readLine(); // skip midterm grades header
+        // PLACEHOLDER for midterm grades
     }
 }
