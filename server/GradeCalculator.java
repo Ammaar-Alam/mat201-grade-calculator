@@ -1,3 +1,5 @@
+package server;
+
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Out;
 import edu.princeton.cs.algs4.StdOut;
@@ -31,7 +33,9 @@ public class GradeCalculator {
         StdOut.println("Current In-Class Work Grade: " + inClassGrade + "%");
         StdOut.println("Current PSET Grade: " + psetGrade + "%");
         StdOut.println("Current Midterms Grade: " + midtermGrade + "%");
-        StdOut.println("Current Overall Class Grade (normalized): " + finalGrade + "%");
+        StdOut.println(
+            "Current Overall Class Grade (normalized): " + finalGrade + "%"
+        );
 
         In in = new In();
         StdOut.println("Please select which category you would like to update:");
@@ -46,7 +50,9 @@ public class GradeCalculator {
         saveGrades();
         calculateOverallGrade();
 
-        StdOut.println("Updated Overall Class Grade (normalized): " + finalGrade + "%");
+        StdOut.println(
+            "Updated Overall Class Grade (normalized): " + finalGrade + "%"
+        );
     }
 
     private static void runDialogueINCLASS() {
@@ -55,7 +61,9 @@ public class GradeCalculator {
         int lectureNumber = in.readInt();
         while (lectures.containsKey(lectureNumber)) {
             LectureInfo li = lectures.get(lectureNumber);
-            StdOut.println("\nLECTURE ENTERED: " + li.getDate() + ", " + li.getDayOfWeek());
+            StdOut.println(
+                "\nLECTURE ENTERED: " + li.getDate() + ", " + li.getDayOfWeek()
+            );
             StdOut.print("Points earned for the day: ");
             int dailyEarnedPoints = in.readInt();
             li.updateDailyEarnedPoints(dailyEarnedPoints);
@@ -139,11 +147,15 @@ public class GradeCalculator {
     private static void saveGrades() {
         Out out = new Out("grades.csv");
         out.println("totalEarnedPoints,totalPossiblePoints,inClassGrade");
-        out.println(totalEarnedPoints + " " + totalPossiblePoints + " " + inClassGrade);
+        out.println(
+            totalEarnedPoints + " " + totalPossiblePoints + " " + inClassGrade
+        );
         out.println("totalEarnedPSET,totalPossiblePSET,psetGrade");
         out.println(totalEarnedPSET + " " + totalPossiblePSET + " " + psetGrade);
         out.println("midtermEarned,midtermPossible,midtermGrade");
-        out.println(totalEarnedMidterm + " " + totalPossibleMidterm + " " + midtermGrade);
+        out.println(
+            totalEarnedMidterm + " " + totalPossibleMidterm + " " + midtermGrade
+        );
         out.println("finalExamGrade," + finalExamGrade);
         out.close();
     }
@@ -164,7 +176,14 @@ public class GradeCalculator {
         for (Map.Entry<Integer, LectureInfo> entry : lectures.entrySet()) {
             int lectureNumber = entry.getKey();
             LectureInfo li = entry.getValue();
-            out.printf("%d,%s,%s,%d,%d\n", lectureNumber, li.getDate(), li.getDayOfWeek(), li.getPossiblePoints(), li.getEarnedPoints());
+            out.printf(
+                "%d,%s,%s,%d,%d\n",
+                lectureNumber,
+                li.getDate(),
+                li.getDayOfWeek(),
+                li.getPossiblePoints(),
+                li.getEarnedPoints()
+            );
         }
         out.close();
     }
@@ -176,7 +195,15 @@ public class GradeCalculator {
             String line = in.readLine();
             String[] fields = line.split(",");
             int lectureNumber = Integer.parseInt(fields[0]);
-            lectures.put(lectureNumber, new LectureInfo(fields[1], fields[2], Integer.parseInt(fields[3]), Integer.parseInt(fields[4])));
+            lectures.put(
+                lectureNumber,
+                new LectureInfo(
+                    fields[1],
+                    fields[2],
+                    Integer.parseInt(fields[3]),
+                    Integer.parseInt(fields[4])
+                )
+            );
         }
     }
 
@@ -233,7 +260,10 @@ public class GradeCalculator {
         double weightMidterm = 0.3;
         double weightFinal = 0; // no final grade yet
 
-        double earnedPercentage = (weightInClass * inClassGrade) + (weightPSET * psetGrade) + (weightMidterm * midtermGrade);
+        double earnedPercentage =
+            (weightInClass * inClassGrade) +
+            (weightPSET * psetGrade) +
+            (weightMidterm * midtermGrade);
         double totalWeight = weightPSET + weightInClass + weightMidterm; // no final weight yet
 
         finalGrade = (earnedPercentage / totalWeight); // normalized grade without final

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Mat201 Grade Calculator</title>
+        <link rel="stylesheet" href="styles.css" />
+        <script defer src="script.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Mat201 Grade Calculator</h1>
+
+            <!-- Step 1: Select Category -->
+            <div id="step1" class="step">
+                <h2>Select Category to Update</h2>
+                <button id="inClassButton">In-Class Grade</button>
+                <button id="psetButton">PSET Grade</button>
+                <button id="midtermButton">Midterm Grade</button>
+            </div>
+
+            <!-- Step 2: Enter Day/PSET/Midterm Number -->
+            <div id="step2" class="step" style="display: none">
+                <h2 id="step2Heading"></h2>
+                <input
+                    type="number"
+                    id="dayNumber"
+                    placeholder="Enter the Number"
+                    required
+                />
+                <button id="nextButton">Next</button>
+            </div>
+
+            <!-- Step 3: Enter Points Earned -->
+            <div id="step3" class="step" style="display: none">
+                <h2>Enter Points</h2>
+                <input
+                    type="number"
+                    id="earnedPoints"
+                    placeholder="Enter Points Earned"
+                    required
+                />
+                <button id="submitButton">Submit</button>
+            </div>
+
+            <!-- Result -->
+            <div id="result" class="step" style="display: none">
+                <h2>Current Grades</h2>
+                <p id="resultText"></p>
+                <button id="restartButton">Restart</button>
+            </div>
+        </div>
+    </body>
+</html>

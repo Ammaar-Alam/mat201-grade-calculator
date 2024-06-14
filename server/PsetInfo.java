@@ -1,8 +1,11 @@
-public class PsetInfo {
-    private double psetEarned;          // points earned
-    private double psetPossible = 30;        // points possible
+package server;
 
-    public PsetInfo (double psetEarned, double psetPossible) {
+public class PsetInfo {
+
+    private double psetEarned; // points earned
+    private double psetPossible = 30; // points possible
+
+    public PsetInfo(double psetEarned, double psetPossible) {
         this.psetEarned = psetEarned;
         this.psetPossible = psetPossible;
     }
@@ -19,7 +22,5 @@ public class PsetInfo {
         this.psetEarned = psetEarned;
     }
 
-    public static void main(String[] args) {
-
-    }
+    public static void main(String[] args) {}
 }
