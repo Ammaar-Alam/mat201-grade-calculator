@@ -33,8 +33,9 @@ public class GradeCalculator {
         else if (choice.equals("2")) runDialoguePSET();
         else if (choice.equals("3")) runDialogueMIDTERM();
 
-        saveGrades();
+        savePSETs();
         saveLectures();
+        saveGrades();
     }
 
     private static void runDialogueINCLASS() {
@@ -103,6 +104,16 @@ public class GradeCalculator {
         out.println(totalEarnedPSET + " " + totalPossiblePSET + " " + psetGrade);
         out.println("midtermEarned,midtermPossible,midtermGrade");
         out.println("0 0 0");   // PLACEHOLDER for midterm grades
+        out.close();
+    }
+
+    private static void savePSETs() {
+        Out out = new Out("psets.csv");
+        out.println("psetEarned,psetPossible");
+        for (Map.Entry<Integer, PsetInfo> entry : psets.entrySet()) {
+            PsetInfo ps = entry.getValue();
+            out.printf("%d,%d", ps.getPsetEarned(), ps.getPsetPossible());
+        }
         out.close();
     }
 
