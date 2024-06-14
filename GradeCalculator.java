@@ -1,16 +1,15 @@
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Out;
 import edu.princeton.cs.algs4.StdOut;
-
 import java.util.HashMap;
 import java.util.Map;
 
 public class GradeCalculator {
 
-    private static Map<Integer, LectureInfo> lectures = new HashMap<>();  // hashmap of all indexed lectures
-    private static Map<Integer, PsetInfo> psets = new HashMap<>();        // hashmap of all indexed PSETs
-    private static double totalPossiblePoints = 0;  // sum of all points up to the current date
-    private static double totalEarnedPoints = 0;    // sum of all points earned up to current date
+    private static Map<Integer, LectureInfo> lectures = new HashMap<>(); // hashmap of all indexed lectures
+    private static Map<Integer, PsetInfo> psets = new HashMap<>(); // hashmap of all indexed PSETs
+    private static double totalPossiblePoints = 0; // sum of all points up to the current date
+    private static double totalEarnedPoints = 0; // sum of all points earned up to current date
     private static double inClassGrade = 0;
     private static double totalEarnedPSET = 0;
     private static double totalPossiblePSET = 0;
@@ -44,7 +43,9 @@ public class GradeCalculator {
         int lectureNumber = in.readInt();
         while (lectures.containsKey(lectureNumber)) {
             LectureInfo li = lectures.get(lectureNumber);
-            StdOut.println("\nLECTURE ENTERED: " + li.getDate() + ", " + li.getDayOfWeek());
+            StdOut.println(
+                "\nLECTURE ENTERED: " + li.getDate() + ", " + li.getDayOfWeek()
+            );
             StdOut.print("Points earned for the day: ");
             int dailyEarnedPoints = in.readInt();
             li.updateDailyEarnedPoints(dailyEarnedPoints);
@@ -69,10 +70,12 @@ public class GradeCalculator {
         while (psets.containsKey(psetNumber)) {
             PsetInfo ps = psets.get(psetNumber);
             StdOut.print("Points earned on PSET: ");
-            double earnedPoints = in.readDouble();
-            ps.setPsetEarned(earnedPoints);
-            totalEarnedPSET += earnedPoints;
-            totalPossiblePSET += ps.getPsetPossible();
+            double newEarnedPoints = in.readDouble();
+
+            // update the total earned points by subtracting the old points and adding the new points
+            totalEarnedPSET = totalEarnedPSET - ps.getPsetEarned() + newEarnedPoints;
+            ps.setPsetEarned(newEarnedPoints);
+
             psetGrade = (totalEarnedPSET / totalPossiblePSET) * 100;
             StdOut.println("Updated PSET Grade: " + psetGrade + "%");
             StdOut.print("Enter another PSET? (y or n): ");
@@ -99,11 +102,13 @@ public class GradeCalculator {
     private static void saveGrades() {
         Out out = new Out("grades.csv");
         out.println("totalEarnedPoints,totalPossiblePoints,inClassGrade");
-        out.println(totalEarnedPoints + " " + totalPossiblePoints + " " + inClassGrade);
+        out.println(
+            totalEarnedPoints + " " + totalPossiblePoints + " " + inClassGrade
+        );
         out.println("totalEarnedPSET,totalPossiblePSET,psetGrade");
         out.println(totalEarnedPSET + " " + totalPossiblePSET + " " + psetGrade);
         out.println("midtermEarned,midtermPossible,midtermGrade");
-        out.println("0 0 0");   // PLACEHOLDER for midterm grades
+        out.println("0 0 0"); // PLACEHOLDER for midterm grades
         out.close();
     }
 
@@ -112,7 +117,7 @@ public class GradeCalculator {
         out.println("psetEarned,psetPossible");
         for (Map.Entry<Integer, PsetInfo> entry : psets.entrySet()) {
             PsetInfo ps = entry.getValue();
-            out.printf("%d,%d", (double) ps.getPsetEarned(), (double) ps.getPsetPossible());
+            out.println(ps.getPsetEarned() + " " + ps.getPsetPossible());
         }
         out.close();
     }
@@ -123,7 +128,14 @@ public class GradeCalculator {
         for (Map.Entry<Integer, LectureInfo> entry : lectures.entrySet()) {
             int lectureNumber = entry.getKey();
             LectureInfo li = entry.getValue();
-            out.printf("%d,%s,%s,%d,%d\n", lectureNumber, li.getDate(), li.getDayOfWeek(), li.getPossiblePoints(), li.getEarnedPoints());
+            out.printf(
+                "%d,%s,%s,%d,%d\n",
+                lectureNumber,
+                li.getDate(),
+                li.getDayOfWeek(),
+                li.getPossiblePoints(),
+                li.getEarnedPoints()
+            );
         }
         out.close();
     }
@@ -135,10 +147,15 @@ public class GradeCalculator {
             String line = in.readLine();
             String[] fields = line.split(",");
             int lectureNumber = Integer.parseInt(fields[0]);
-            lectures.put(lectureNumber, new LectureInfo(
-                    fields[1], fields[2],
+            lectures.put(
+                lectureNumber,
+                new LectureInfo(
+                    fields[1],
+                    fields[2],
                     Integer.parseInt(fields[3]),
-                    Integer.parseInt(fields[4])));
+                    Integer.parseInt(fields[4])
+                )
+            );
         }
     }
 
