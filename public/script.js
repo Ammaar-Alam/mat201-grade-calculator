@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
       earnedPoints,
     };
 
-    console.log("Submitting points:", data);
+    console.log("Submitting points: ", data);
 
     try {
       const response = await fetch("/update-grades", {
@@ -56,9 +56,8 @@ document.addEventListener("DOMContentLoaded", () => {
         body: JSON.stringify(data),
       });
 
-      console.log("Response status:", response.status);
       const result = await response.json();
-      console.log("Server response:", result);
+      console.log("Server response: ", result);
 
       if (result.success) {
         document.getElementById("step3").style.display = "none";
@@ -66,10 +65,10 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("resultText").innerText = result.message;
         currentStep = "result";
       } else {
-        alert(result.message);
+        alert("Failed to update grades: " + result.message);
       }
     } catch (error) {
-      console.error("Error during fetch:", error);
+      console.error("Error:", error);
       alert("Error updating grades.");
     }
   };
