@@ -1,5 +1,5 @@
-inClassGrade,psetGrade,midterms,final
-77.27272727272727
+totalEarnedPoints,totalPossiblePoints,inClassGrade
+19.0 24.0 79.16666666666666
 LectureNumber,date,dayOfWeek,possiblePoints,earnedPoints
 1,June 3,Monday,2,1
 2,June 4,Tuesday,2,2
@@ -9,7 +9,7 @@ LectureNumber,date,dayOfWeek,possiblePoints,earnedPoints
 6,June 10,Monday,2,2
 7,June 11,Tuesday,2,2
 8,June 12,Wednesday,2,2
-9,June 13,Thursday,2,0
+9,June 13,Thursday,2,2
 10,June 14,Friday,0,0
 11,June 17,Monday,2,0
 12,June 18,Tuesday,2,0

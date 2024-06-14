@@ -11,8 +11,8 @@ public class GradeCalculator {
             = new HashMap<>();                  // hashmap of all indexed lectures
     private static Map<Integer, Double> grades
             = new HashMap<>();                  // for now, only implementing participation grade
-    private static int totalPossiblePoints = 0; // sum of all points up to the current date
-    private static int totalEarnedPoints;       // sum of all points earned up to current date
+    private static Double totalPossiblePoints = 0.0; // sum of all points up to the current date
+    private static Double totalEarnedPoints;       // sum of all points earned up to current date
     private static int dailyEarnedPoints = 0;   // points earned on current day
     private static LectureInfo li;              // lecture object containing all the lecture info
     private static double inClassGrade;
@@ -66,8 +66,8 @@ public class GradeCalculator {
     private static void saveLectures() {
         Out out = new Out("lectures.csv");
 
-        out.println("inClassGrade,psetGrade,midterms,final");
-        out.println(grades.get(1));
+        out.println("totalEarnedPoints,totalPossiblePoints,inClassGrade");
+        out.println(totalEarnedPoints + " " + totalPossiblePoints + " " + grades.get(1));
 
         out.println("LectureNumber,date,dayOfWeek,possiblePoints,earnedPoints"); // header
         for (Map.Entry<Integer, LectureInfo> entry : lectures.entrySet()) {
@@ -84,6 +84,8 @@ public class GradeCalculator {
         In in = new In("lectures.csv");
         in.readLine(); // grades header
         grades.put(1, in.readDouble());
+        grades.put(2, in.readDouble());
+        grades.put(3, in.readDouble());
         in.readLine(); // lecture info header
         in.readLine();
         while (!in.isEmpty()) {
@@ -91,7 +93,9 @@ public class GradeCalculator {
             String[] fields = line.split(",");
             lectures.put(Integer.parseInt(fields[0]), new LectureInfo(fields[1], fields[2], Integer.parseInt(fields[3]), Integer.parseInt(fields[4])));
         }
-         inClassGrade = grades.get(1);
+        totalEarnedPoints = grades.get(1);
+        totalPossiblePoints = grades.get(2);
+        inClassGrade = grades.get(3);
     }
 
          /**
