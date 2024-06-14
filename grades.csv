@@ -1,17 +1,6 @@
 totalEarnedPoints,totalPossiblePoints,inClassGrade
 19.0 24.0 79.16666666666666
-psetNumber, totalEarnedPSET,totalPossiblePSET,psetGrade
-0 0 0
-0 0 0
-0 0 0
-0 0 0
-0 0 0
-0 0 0
-0 0 0
-0 0 0
-0 0 0
-0 0 0
-0 0 0
+totalEarnedPSET,totalPossiblePSET,psetGrade
 0 0 0
 midtermEarned,midtermPossible,midtermGrade
 0 0 0

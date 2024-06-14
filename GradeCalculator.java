@@ -11,7 +11,7 @@ public class GradeCalculator {
             = new HashMap<>();                          // hashmap of all indexed lectures
     private static Map<Integer, Double> grades
             = new HashMap<>();                          // for now, only implementing participation grade
-    private static Map<Integer, Double> psets =
+    private static Map<Integer, PsetInfo> psets =
             new HashMap<>();                            // hashmap of all indexed psets
     private static double totalPossiblePoints;          // sum of all points up to the current date
     private static double totalEarnedPoints;            // sum of all points earned up to current date
@@ -24,11 +24,14 @@ public class GradeCalculator {
     private static double totalPossibleMidterm;
     private static double midtermGrade;
     private static LectureInfo li;                      // lecture object containing all the lecture info
+    private static PsetInfo ps;                         // ps object containing all the ps info
+
 
 
 
     public static void main(String[] args) {
         initializeLectures();
+        intializePSETS();
         initializeGrades();
         StdOut.println("Current In-Class Work Grade: " + inClassGrade + "%");
         StdOut.println("Current PSET Grade: " + psetGrade + "%");
@@ -83,12 +86,8 @@ public class GradeCalculator {
             int psetNumber = in.readInt();
             ps = psets.get(psetNumber); // gets the lecture on the inserted day
 
-            StdOut.println("\nLECTURE ENTERED: " + li.getDate() + ", " + li.getDayOfWeek());
-            StdOut.print("Points earned for the day: ");
-            dailyEarnedPoints = in.readInt();
-
-            li.updateDailyEarnedPoints(dailyEarnedPoints);
-            updateTotals(dailyEarnedPoints, li.getPossiblePoints());
+            StdOut.print("PSET Grade: ");
+            psets.put(psetNumber, in.readDouble());
 
             inClassGrade = ((double) totalEarnedPoints / totalPossiblePoints) * 100;
             grades.put(1, inClassGrade); // update grade hashmap
@@ -144,6 +143,15 @@ public class GradeCalculator {
 
     }
 
+    private static void intializePSETS() {
+        In in = new In("psets.csv");
+        in.readLine(); // pset info header
+        for (int i = 1; i < 13; i++) {
+            psets.put(i, new PsetInfo(in.readDouble(), in.readDouble()));
+        }
+
+    }
+
     private static void initializeGrades() {
         In in = new In("grades.csv");
         in.readLine(); // grades header
@@ -152,12 +160,9 @@ public class GradeCalculator {
         grades.put(3, in.readDouble());
 
         in.readLine(); // pset header
-
-        for (int i = 1; i < 13; i++) {
-            grades.put(4 * i, in.readDouble()); // pset number
-            grades.put(5 * i, in.readDouble()); // pset points earned
-            grades.put(6 * i, in.readDouble()); // pset points possible
-        }
+        grades.put(4, in.readDouble()); // total earned pset points
+        grades.put(5, in.readDouble()); // total possible pset points
+        grades.put(6, in.readDouble()); // pset grade
 
         totalEarnedPoints = grades.get(1);
         totalPossiblePoints = grades.get(2);

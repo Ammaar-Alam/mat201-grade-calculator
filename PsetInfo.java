@@ -2,7 +2,7 @@ public class PsetInfo {
     private double psetEarned;          // points earned
     private double psetPossible;        // points possible
 
-    public PsetInfo (int psetNumber, double psetEarned, double psetPossible) {
+    public PsetInfo (double psetEarned, double psetPossible) {
         this.psetEarned = psetEarned;
         this.psetPossible = psetPossible;
     }
