@@ -14,9 +14,9 @@
             <!-- Step 1: Select Category -->
             <div id="step1" class="step">
                 <h2>Select Category to Update</h2>
-                <button onclick="startStep('inClass')">In-Class Grade</button>
-                <button onclick="startStep('pset')">PSET Grade</button>
-                <button onclick="startStep('midterm')">Midterm Grade</button>
+                <button id="inClassButton">In-Class Grade</button>
+                <button id="psetButton">PSET Grade</button>
+                <button id="midtermButton">Midterm Grade</button>
             </div>
 
             <!-- Step 2: Enter Day/PSET/Midterm Number -->
@@ -28,7 +28,7 @@
                     placeholder="Enter the Number"
                     required
                 />
-                <button onclick="proceedStep2()">Next</button>
+                <button id="nextButton">Next</button>
             </div>
 
             <!-- Step 3: Enter Points Earned -->
@@ -40,14 +40,14 @@
                     placeholder="Enter Points Earned"
                     required
                 />
-                <button onclick="submitPoints()">Submit</button>
+                <button id="submitButton">Submit</button>
             </div>
 
             <!-- Result -->
             <div id="result" class="step" style="display: none">
                 <h2>Current Grades</h2>
                 <p id="resultText"></p>
-                <button onclick="restart()">Restart</button>
+                <button id="restartButton">Restart</button>
             </div>
         </div>
     </body>
