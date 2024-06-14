@@ -56,6 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
         body: JSON.stringify(data),
       });
 
+      console.log("Response status:", response.status);
       const result = await response.json();
       console.log("Server response:", result);
 
@@ -68,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
         alert(result.message);
       }
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error during fetch:", error);
       alert("Error updating grades.");
     }
   };

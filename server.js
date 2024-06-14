@@ -1,8 +1,11 @@
 const express = require("express");
+const http = require("http");
 const path = require("path");
 const { exec } = require("child_process");
 
 const app = express();
+const server = http.createServer(app);
+
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 
@@ -15,6 +18,7 @@ app.post("/update-grades", (req, res) => {
   exec(command, (error, stdout, stderr) => {
     if (error) {
       console.error(`Error executing script: ${error.message}`);
+      console.error(`Script stderr: ${stderr}`);
       res.json({ success: false, message: "Internal Server Error" });
       return;
     }
@@ -29,4 +33,4 @@ app.post("/update-grades", (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+server.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
