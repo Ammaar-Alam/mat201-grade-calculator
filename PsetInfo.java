@@ -15,6 +15,10 @@ public class PsetInfo {
         return psetPossible;
     }
 
+    public void setPsetEarned(double psetEarned) {
+        this.psetEarned = psetEarned;
+    }
+
     public static void main(String[] args) {
 
     }
