@@ -145,7 +145,7 @@ public class GradeCalculator {
     }
 
     private static void saveGrades() {
-        Out out = new Out("grades.csv");
+        Out out = new Out("server/grades.csv");
         out.println("totalEarnedPoints,totalPossiblePoints,inClassGrade");
         out.println(
             totalEarnedPoints + " " + totalPossiblePoints + " " + inClassGrade
@@ -161,7 +161,7 @@ public class GradeCalculator {
     }
 
     private static void savePSETs() {
-        Out out = new Out("psets.csv");
+        Out out = new Out("server/psets.csv");
         out.println("psetEarned,psetPossible");
         for (Map.Entry<Integer, PsetInfo> entry : psets.entrySet()) {
             PsetInfo ps = entry.getValue();
@@ -171,7 +171,7 @@ public class GradeCalculator {
     }
 
     private static void saveLectures() {
-        Out out = new Out("lectures.csv");
+        Out out = new Out("server/lectures.csv");
         out.println("LectureNumber,date,dayOfWeek,possiblePoints,earnedPoints");
         for (Map.Entry<Integer, LectureInfo> entry : lectures.entrySet()) {
             int lectureNumber = entry.getKey();
@@ -189,7 +189,7 @@ public class GradeCalculator {
     }
 
     private static void initializeLectures() {
-        In in = new In("lectures.csv");
+        In in = new In("server/lectures.csv");
         in.readLine(); // skipping header
         while (!in.isEmpty()) {
             String line = in.readLine();
@@ -208,7 +208,7 @@ public class GradeCalculator {
     }
 
     private static void initializePSETS() {
-        In in = new In("psets.csv");
+        In in = new In("server/psets.csv");
         in.readLine(); // skipping header
         int psetNumber = 1;
         while (!in.isEmpty()) {
@@ -222,7 +222,7 @@ public class GradeCalculator {
     }
 
     private static void initializeGrades() {
-        In in = new In("grades.csv");
+        In in = new In("server/grades.csv");
         in.readLine(); // skip in-class grades header
         String line = in.readLine();
         String[] fields = line.split(" ");
