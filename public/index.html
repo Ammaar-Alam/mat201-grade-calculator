@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Grade Calculator</title>
+        <link rel="stylesheet" href="styles.css" />
+        <script defer src="script.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Mat201 Grade Calculator</h1>
+            <form id="gradeForm">
+                <input
+                    type="number"
+                    id="earnedInClass"
+                    placeholder="Earned In-Class Points"
+                    required
+                />
+                <input
+                    type="number"
+                    id="possibleInClass"
+                    placeholder="Possible In-Class Points"
+                    required
+                />
+                <input
+                    type="number"
+                    id="earnedPSET"
+                    placeholder="Earned PSET Points"
+                    required
+                />
+                <input
+                    type="number"
+                    id="possiblePSET"
+                    placeholder="Possible PSET Points"
+                    required
+                />
+                <input
+                    type="number"
+                    id="earnedMidterm"
+                    placeholder="Earned Midterm Points"
+                    required
+                />
+                <button type="submit">Calculate Grade</button>
+            </form>
+            <div id="result"></div>
+        </div>
+    </body>
+</html>
