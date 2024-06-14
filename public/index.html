@@ -3,47 +3,44 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Grade Calculator</title>
+        <title>Mat201 Grade Calculator</title>
         <link rel="stylesheet" href="styles.css" />
         <script defer src="script.js"></script>
     </head>
     <body>
         <div class="container">
             <h1>Mat201 Grade Calculator</h1>
-            <form id="gradeForm">
+            <div id="step1" class="step">
+                <h2>Select Category to Update</h2>
+                <button onclick="startStep('inClass')">In-Class Grade</button>
+                <button onclick="startStep('pset')">PSET Grade</button>
+                <button onclick="startStep('midterm')">Midterm Grade</button>
+            </div>
+            <div id="step2" class="step" style="display: none">
+                <h2 id="step2Heading"></h2>
                 <input
                     type="number"
-                    id="earnedInClass"
-                    placeholder="Earned In-Class Points"
+                    id="dayNumber"
+                    placeholder="Enter the Day Number"
                     required
                 />
+                <button onclick="proceedStep2()">Next</button>
+            </div>
+            <div id="step3" class="step" style="display: none">
+                <h2>Enter Points</h2>
                 <input
                     type="number"
-                    id="possibleInClass"
-                    placeholder="Possible In-Class Points"
+                    id="earnedPoints"
+                    placeholder="Enter Points Earned"
                     required
                 />
-                <input
-                    type="number"
-                    id="earnedPSET"
-                    placeholder="Earned PSET Points"
-                    required
-                />
-                <input
-                    type="number"
-                    id="possiblePSET"
-                    placeholder="Possible PSET Points"
-                    required
-                />
-                <input
-                    type="number"
-                    id="earnedMidterm"
-                    placeholder="Earned Midterm Points"
-                    required
-                />
-                <button type="submit">Calculate Grade</button>
-            </form>
-            <div id="result"></div>
+                <button onclick="submitPoints()">Submit</button>
+            </div>
+            <div id="result" class="step" style="display: none">
+                <h2>Current Grades</h2>
+                <p id="resultText"></p>
+                <button onclick="restart()">Restart</button>
+            </div>
         </div>
     </body>
 </html>
