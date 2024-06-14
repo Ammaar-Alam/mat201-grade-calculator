@@ -3,4 +3,5 @@ totalEarnedPoints,totalPossiblePoints,inClassGrade
 totalEarnedPSET,totalPossiblePSET,psetGrade
 57.5 60.0 95.83333333333334
 midtermEarned,midtermPossible,midtermGrade
-0.0 0.0 0.0
+72.0 80.0 90.0
+finalExamGrade,0.0

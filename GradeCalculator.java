@@ -6,18 +6,21 @@ import java.util.Map;
 
 public class GradeCalculator {
 
-    private static Map<Integer, LectureInfo> lectures = new HashMap<>();  // hashmap of all indexed lectures
-    private static Map<Integer, PsetInfo> psets = new HashMap<>();        // hashmap of all indexed PSETs
-    private static double totalPossiblePoints = 0;  // sum of all points up to the current date
-    private static double totalEarnedPoints = 0;    // sum of all points earned up to current date
+    private static Map<Integer, LectureInfo> lectures = new HashMap<>(); // hashmap of all indexed lectures
+    private static Map<Integer, PsetInfo> psets = new HashMap<>(); // hashmap of all indexed PSETs
+    private static Map<Integer, Double> midterms = new HashMap<>(); // hashmap of midterm grades
+
+    private static double totalPossiblePoints = 0; // sum of all points up to the current date
+    private static double totalEarnedPoints = 0; // sum of all points earned up to current date
     private static double inClassGrade = 0;
     private static double totalEarnedPSET = 0;
-    private static double totalPossiblePSET = 0;
+    private static double totalPossiblePSET; // sum of all possible PSET points, assuming each PSET is 30 points
     private static double psetGrade = 0;
     private static double totalEarnedMidterm = 0;
-    private static double totalPossibleMidterm = 160; // two midterms, each 80 points
+    private static double totalPossibleMidterm = 0; // two midterms, out of 80 points each
     private static double midtermGrade = 0;
     private static double finalGrade = 0;
+    private static double finalExamGrade = 0; // Placeholder for final exam, which hasn't been taken yet
 
     public static void main(String[] args) {
         initializeLectures();
@@ -28,7 +31,7 @@ public class GradeCalculator {
         StdOut.println("Current In-Class Work Grade: " + inClassGrade + "%");
         StdOut.println("Current PSET Grade: " + psetGrade + "%");
         StdOut.println("Current Midterms Grade: " + midtermGrade + "%");
-        StdOut.println("Current Overall Class Grade: " + finalGrade + "%");
+        StdOut.println("Current Overall Class Grade (normalized): " + finalGrade + "%");
 
         In in = new In();
         StdOut.println("Please select which category you would like to update:");
@@ -43,7 +46,7 @@ public class GradeCalculator {
         saveGrades();
         calculateOverallGrade();
 
-        StdOut.println("Updated Overall Class Grade: " + finalGrade + "%");
+        StdOut.println("Updated Overall Class Grade (normalized): " + finalGrade + "%");
     }
 
     private static void runDialogueINCLASS() {
@@ -99,12 +102,32 @@ public class GradeCalculator {
 
     private static void runDialogueMIDTERM() {
         In in = new In();
-        StdOut.print("Points earned on Midterm: ");
-        double newEarnedPoints = in.readDouble();
+        StdOut.print("Midterm Number (1 or 2): ");
+        int midtermNumber = in.readInt();
+        while (midtermNumber == 1 || midtermNumber == 2) {
+            StdOut.print("Points earned on Midterm: ");
+            double newEarnedPoints = in.readDouble();
 
-        totalEarnedMidterm += newEarnedPoints;
-        midtermGrade = (totalEarnedMidterm / totalPossibleMidterm) * 100;
-        StdOut.println("Updated Midterm Grade: " + midtermGrade + "%");
+            if (midterms.containsKey(midtermNumber)) {
+                totalEarnedMidterm -= midterms.get(midtermNumber);
+            }
+
+            midterms.put(midtermNumber, newEarnedPoints);
+            totalEarnedMidterm += newEarnedPoints;
+
+            totalPossibleMidterm = 80 * midterms.size(); // assuming each midterm is 80 points
+            midtermGrade = (totalEarnedMidterm / totalPossibleMidterm) * 100;
+            StdOut.println("Updated Midterm Grade: " + midtermGrade + "%");
+
+            StdOut.print("Enter another Midterm? (y or n): ");
+            if (in.readString().equalsIgnoreCase("y")) {
+                StdOut.println("-------------\n\n");
+                StdOut.print("Midterm Number (1 or 2): ");
+                midtermNumber = in.readInt();
+            } else {
+                break;
+            }
+        }
         calculateOverallGrade();
     }
 
@@ -121,6 +144,7 @@ public class GradeCalculator {
         out.println(totalEarnedPSET + " " + totalPossiblePSET + " " + psetGrade);
         out.println("midtermEarned,midtermPossible,midtermGrade");
         out.println(totalEarnedMidterm + " " + totalPossibleMidterm + " " + midtermGrade);
+        out.println("finalExamGrade," + finalExamGrade);
         out.close();
     }
 
@@ -164,9 +188,10 @@ public class GradeCalculator {
             String line = in.readLine();
             String[] fields = line.split(" ");
             double earnedPoints = Double.parseDouble(fields[0]);
-            double possiblePoints = Double.parseDouble(fields[1]);
+            double possiblePoints = 30; // each PSET should have 30 possible points
             psets.put(psetNumber++, new PsetInfo(earnedPoints, possiblePoints));
         }
+        totalPossiblePSET = (psetNumber - 1) * 30; // calculate total possible PSET points
     }
 
     private static void initializeGrades() {
@@ -182,15 +207,22 @@ public class GradeCalculator {
         line = in.readLine();
         fields = line.split(" ");
         totalEarnedPSET = Double.parseDouble(fields[0]);
-        totalPossiblePSET = Double.parseDouble(fields[1]);
+        totalPossiblePSET = Double.parseDouble(fields[1]); // should be multiple of 30
         psetGrade = Double.parseDouble(fields[2]);
 
         in.readLine(); // skip midterm grades header
         line = in.readLine();
         fields = line.split(" ");
         totalEarnedMidterm = Double.parseDouble(fields[0]);
-        totalPossibleMidterm = Double.parseDouble(fields[1]);
-        midtermGrade = Double.parseDouble(fields[2]);
+        if (fields.length > 1) {
+            totalPossibleMidterm = Double.parseDouble(fields[1]); // initialize if already in the file
+        }
+        if (fields.length > 2) {
+            midtermGrade = Double.parseDouble(fields[2]);
+        }
+
+        in.readLine(); // skip final exam header
+        finalExamGrade = 0; // final exam not taken yet
 
         calculateOverallGrade();
     }
@@ -199,11 +231,11 @@ public class GradeCalculator {
         double weightPSET = 0.2;
         double weightInClass = 0.2;
         double weightMidterm = 0.3;
-        double weightFinal = 0.3;
+        double weightFinal = 0; // no final grade yet
 
         double earnedPercentage = (weightInClass * inClassGrade) + (weightPSET * psetGrade) + (weightMidterm * midtermGrade);
         double totalWeight = weightPSET + weightInClass + weightMidterm; // no final weight yet
 
-        finalGrade = (earnedPercentage / totalWeight) * 100; // normalized grade without final
+        finalGrade = (earnedPercentage / totalWeight); // normalized grade without final
     }
 }
