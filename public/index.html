@@ -10,22 +10,28 @@
     <body>
         <div class="container">
             <h1>Mat201 Grade Calculator</h1>
+
+            <!-- Step 1: Select Category -->
             <div id="step1" class="step">
                 <h2>Select Category to Update</h2>
                 <button onclick="startStep('inClass')">In-Class Grade</button>
                 <button onclick="startStep('pset')">PSET Grade</button>
                 <button onclick="startStep('midterm')">Midterm Grade</button>
             </div>
+
+            <!-- Step 2: Enter Day/PSET/Midterm Number -->
             <div id="step2" class="step" style="display: none">
                 <h2 id="step2Heading"></h2>
                 <input
                     type="number"
                     id="dayNumber"
-                    placeholder="Enter the Day Number"
+                    placeholder="Enter the Number"
                     required
                 />
                 <button onclick="proceedStep2()">Next</button>
             </div>
+
+            <!-- Step 3: Enter Points Earned -->
             <div id="step3" class="step" style="display: none">
                 <h2>Enter Points</h2>
                 <input
@@ -36,6 +42,8 @@
                 />
                 <button onclick="submitPoints()">Submit</button>
             </div>
+
+            <!-- Result -->
             <div id="result" class="step" style="display: none">
                 <h2>Current Grades</h2>
                 <p id="resultText"></p>

@@ -11,18 +11,12 @@ app.use(express.static(path.join(__dirname, "public")));
 app.post("/update-grades", (req, res) => {
   const { category, dayNumber, earnedPoints } = req.body;
 
-  // Function to update the CSV files
-  // This part should correspond to the file manipulation you already implemented in your GradeCalculator
-
   function updateCSV() {
-    // Read and manipulate the CSV files here
-    // For demonstration, we'll assume inClass category
     if (category === "inClass") {
       const lectures = fs
         .readFileSync(path.join(__dirname, "server/lectures.csv"))
         .toString();
       const lines = lectures.split("\n");
-      // Find the corresponding lecture and update the points
       const updatedLines = lines.map((line) => {
         if (line.startsWith(dayNumber + ",")) {
           const parts = line.split(",");
@@ -40,7 +34,6 @@ app.post("/update-grades", (req, res) => {
         .readFileSync(path.join(__dirname, "server/psets.csv"))
         .toString();
       const lines = psets.split("\n");
-      // Find the corresponding pset and update the points
       const updatedLines = lines.map((line, index) => {
         if (index == dayNumber) {
           const parts = line.split(" ");
