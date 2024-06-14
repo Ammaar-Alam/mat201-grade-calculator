@@ -1,6 +1,12 @@
 #!/bin/bash
-javac -cp "libs/*" server/GradeCalculator.java
-java -cp .:libs/* server.GradeCalculator "$1" "$2" "$3" 2>&1 | tee -a server.log
+
+# Compile the Java files
+javac -cp ".:server/libs/*" server/*.java
+
+# Run the GradeCalculator program
+java -cp ".:server:server/libs/*" server.GradeCalculator "$1" "$2" "$3" 2>&1 | tee -a server.log
+
+
 
 
 # Paths to the Java source files
