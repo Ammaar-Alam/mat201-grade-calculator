@@ -1,14 +1,19 @@
 #!/bin/bash
 
-# Paths to the Java source files
-SRC_DIR="server"
-SRC_FILES="GradeCalculator.java LectureInfo.java PsetInfo.java"
+# Navigate to the directory where this script is located
+cd "$(dirname "$0")"
 
-# Path to the algs4.jar file (assuming it's in the server/libs directory)
-ALGS4_JAR_PATH="server/libs/algs4.jar"
+# Set the classpath to include the required libraries
+LIBS_PATH="libs/algs4.jar"
 
-# Compile the Java files with the algs4.jar in the classpath
-javac -cp .:${ALGS4_JAR_PATH} ${SRC_DIR}/*.java
+# Compile the Java files
+javac -cp "$LIBS_PATH" server/*.java
 
-# Run the GradeCalculator class with the algs4.jar in the classpath
-java -cp .:${ALGS4_JAR_PATH} ${SRC_DIR}.GradeCalculator
+# Check if compilation was successful
+if [ $? -ne 0 ]; then
+  echo "Compilation failed"
+  exit 1
+fi
+
+# Run the main class
+java -cp ".:$LIBS_PATH:server" server.GradeCalculator $1 $2 $3
