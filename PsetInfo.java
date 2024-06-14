@@ -1,6 +1,6 @@
 public class PsetInfo {
     private double psetEarned;          // points earned
-    private double psetPossible;        // points possible
+    private double psetPossible = 30;        // points possible
 
     public PsetInfo (double psetEarned, double psetPossible) {
         this.psetEarned = psetEarned;

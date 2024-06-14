@@ -112,7 +112,7 @@ public class GradeCalculator {
         out.println("psetEarned,psetPossible");
         for (Map.Entry<Integer, PsetInfo> entry : psets.entrySet()) {
             PsetInfo ps = entry.getValue();
-            out.printf("%d,%d", ps.getPsetEarned(), ps.getPsetPossible());
+            out.printf("%d,%d", (double) ps.getPsetEarned(), (double) ps.getPsetPossible());
         }
         out.close();
     }
