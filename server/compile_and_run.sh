@@ -1,23 +1,8 @@
 #!/bin/bash
 
-# Compile the Java files
-javac -cp ".:server/libs/*" server/*.java
+CATEGORY=$1
+DAYNUMBER=$2
+EARNEDPOINTS=$3
 
-# Run the GradeCalculator program
-java -cp ".:server:server/libs/*" server.GradeCalculator "$1" "$2" "$3" 2>&1 | tee -a server.log
-
-
-
-
-# Paths to the Java source files
-SRC_DIR="server"
-SRC_FILES="GradeCalculator.java LectureInfo.java PsetInfo.java"
-
-# Path to the algs4.jar file (assuming it's in the server/libs directory)
-ALGS4_JAR_PATH="server/libs/algs4.jar"
-
-# Compile the Java files with the algs4.jar in the classpath
-javac -cp .:${ALGS4_JAR_PATH} ${SRC_DIR}/*.java
-
-# Run the GradeCalculator class with the algs4.jar in the classpath
-java -cp .:${ALGS4_JAR_PATH} ${SRC_DIR}.GradeCalculator
+javac -cp "libs/algs4.jar:libs/*" server/*.java
+java -cp "libs/algs4.jar:server:libs/*" server.GradeCalculator $CATEGORY $DAYNUMBER $EARNEDPOINTS
