@@ -11,7 +11,9 @@ public class GradeCalculator {
             = new HashMap<>();                          // hashmap of all indexed lectures
     private static Map<Integer, Double> grades
             = new HashMap<>();                          // for now, only implementing participation grade
-    private static double totalPossiblePoints;    // sum of all points up to the current date
+    private static Map<Integer, Double> psets =
+            new HashMap<>();                            // hashmap of all indexed psets
+    private static double totalPossiblePoints;          // sum of all points up to the current date
     private static double totalEarnedPoints;            // sum of all points earned up to current date
     private static int dailyEarnedPoints = 0;           // points earned on current day
     private static double inClassGrade;
@@ -36,7 +38,7 @@ public class GradeCalculator {
         StdOut.println("Please select which category e you would like to update:");
         StdOut.println("1: In-Class Grade\n2: PSET Grade\n3: Midterm Grade");
         if (in.readString().equalsIgnoreCase("1")) runDialogueINCLASS();
-        else if(in.readString().equalsIgnoreCase("2")) runDialogueGRADE();
+        else if(in.readString().equalsIgnoreCase("2")) runDialoguePSET();
         else if(in.readString().equalsIgnoreCase("2")) runDialogueMIDTERM();
 
 
@@ -46,7 +48,7 @@ public class GradeCalculator {
     // runs the dialogue options and logic for in-class grades
     private static void runDialogueINCLASS() {
         In in = new In();
-        StdOut.print("Lecture number: ");
+        StdOut.print("Lecture Number: ");
 
         while (!in.isEmpty()) {
             int currentDay = in.readInt();
@@ -73,8 +75,33 @@ public class GradeCalculator {
         }
     }
 
-    private static void runDialogueGRADE() {
+    private static void runDialoguePSET() {
+        In in = new In();
+        StdOut.print("PSET Number: ");
 
+        while (!in.isEmpty()) {
+            int psetNumber = in.readInt();
+            ps = psets.get(psetNumber); // gets the lecture on the inserted day
+
+            StdOut.println("\nLECTURE ENTERED: " + li.getDate() + ", " + li.getDayOfWeek());
+            StdOut.print("Points earned for the day: ");
+            dailyEarnedPoints = in.readInt();
+
+            li.updateDailyEarnedPoints(dailyEarnedPoints);
+            updateTotals(dailyEarnedPoints, li.getPossiblePoints());
+
+            inClassGrade = ((double) totalEarnedPoints / totalPossiblePoints) * 100;
+            grades.put(1, inClassGrade); // update grade hashmap
+
+            StdOut.println("\nUpdated In-Class Work Grade: " + inClassGrade + "%");
+
+            StdOut.print("Enter another PSET? (y or n): ");
+            if (in.readString().equalsIgnoreCase("y")) {
+                StdOut.println("-------------\n\n");
+                runDialoguePSET();
+            }
+            break;
+        }
     }
 
     private static void runDialogueMIDTERM() {
@@ -125,10 +152,12 @@ public class GradeCalculator {
         grades.put(3, in.readDouble());
 
         in.readLine(); // pset header
-        grades.put(4, in.readDouble());
-        grades.put(5, in.readDouble());
-        grades.put(6, in.readDouble());
 
+        for (int i = 1; i < 13; i++) {
+            grades.put(4 * i, in.readDouble()); // pset number
+            grades.put(5 * i, in.readDouble()); // pset points earned
+            grades.put(6 * i, in.readDouble()); // pset points possible
+        }
 
         totalEarnedPoints = grades.get(1);
         totalPossiblePoints = grades.get(2);

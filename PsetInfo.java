@@ -15,7 +15,6 @@ public class PsetInfo {
         return psetPossible;
     }
 
-
     public static void main(String[] args) {
 
     }
