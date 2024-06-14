@@ -1,5 +1,5 @@
 public class PsetInfo {
-    private double psetNumber;          // which pset
+    private int psetNumber;          // which pset
     private double psetEarned;          // points earned
     private double psetPossible;        // points possible
 
@@ -7,6 +7,18 @@ public class PsetInfo {
         this.psetNumber = psetNumber;
         this.psetEarned = psetEarned;
         this.psetPossible = psetPossible;
+    }
+
+    public int getPsetNumber() {
+        return psetNumber;
+    }
+
+    public double getPsetEarned() {
+        return psetEarned;
+    }
+
+    public double getPsetPossible() {
+        return psetPossible;
     }
 
 
