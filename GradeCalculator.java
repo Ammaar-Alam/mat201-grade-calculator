@@ -8,27 +8,44 @@ import java.util.Map;
 public class GradeCalculator {
 
     private static Map<Integer, LectureInfo> lectures
-            = new HashMap<>();                  // hashmap of all indexed lectures
+            = new HashMap<>();                          // hashmap of all indexed lectures
     private static Map<Integer, Double> grades
-            = new HashMap<>();                  // for now, only implementing participation grade
-    private static Double totalPossiblePoints = 0.0; // sum of all points up to the current date
-    private static Double totalEarnedPoints;       // sum of all points earned up to current date
-    private static int dailyEarnedPoints = 0;   // points earned on current day
-    private static LectureInfo li;              // lecture object containing all the lecture info
+            = new HashMap<>();                          // for now, only implementing participation grade
+    private static double totalPossiblePoints;    // sum of all points up to the current date
+    private static double totalEarnedPoints;            // sum of all points earned up to current date
+    private static int dailyEarnedPoints = 0;           // points earned on current day
     private static double inClassGrade;
+    private static double totalEarnedPSET;
+    private static double totalPossiblePSET;
+    private static double psetGrade;
+    private static double totalEarnedMidterm;
+    private static double totalPossibleMidterm;
+    private static double midtermGrade;
+    private static LectureInfo li;                      // lecture object containing all the lecture info
+
 
 
     public static void main(String[] args) {
         initializeLectures();
-        runDialogue();
+        initializeGrades();
+        StdOut.println("Current In-Class Work Grade: " + inClassGrade + "%");
+        StdOut.println("Current PSET Grade: " + psetGrade + "%");
+        StdOut.println("Current Midterms Grade: " + midtermGrade + "%");
+
+        In in = new In();
+        StdOut.println("Please select which category e you would like to update:");
+        StdOut.println("1: In-Class Grade\n2: PSET Grade\n3: Midterm Grade");
+        if (in.readString().equalsIgnoreCase("1")) runDialogueINCLASS();
+        else if(in.readString().equalsIgnoreCase("2")) runDialogueGRADE();
+        else if(in.readString().equalsIgnoreCase("2")) runDialogueMIDTERM();
+
+
         saveLectures();
     }
 
-    // runs the dialogue options and logic for terminal
-    // the heart of the program
-    private static void runDialogue() {
+    // runs the dialogue options and logic for in-class grades
+    private static void runDialogueINCLASS() {
         In in = new In();
-        StdOut.println("Current In-Class Work Grade: " + inClassGrade + "%");
         StdOut.print("Lecture number: ");
 
         while (!in.isEmpty()) {
@@ -50,10 +67,18 @@ public class GradeCalculator {
             StdOut.print("Enter another day? (y or n): ");
             if (in.readString().equalsIgnoreCase("y")) {
                 StdOut.println("-------------\n\n");
-                runDialogue();
+                runDialogueINCLASS();
             }
             break;
         }
+    }
+
+    private static void runDialogueGRADE() {
+
+    }
+
+    private static void runDialogueMIDTERM() {
+
     }
 
     private static void updateTotals(int dailyEarnedPoints, int possiblePoints) {
@@ -82,10 +107,6 @@ public class GradeCalculator {
     // reads the csv file in the project folder to make the hashmap with all the lecture info
     private static void initializeLectures() {
         In in = new In("lectures.csv");
-        in.readLine(); // grades header
-        grades.put(1, in.readDouble());
-        grades.put(2, in.readDouble());
-        grades.put(3, in.readDouble());
         in.readLine(); // lecture info header
         in.readLine();
         while (!in.isEmpty()) {
@@ -93,9 +114,29 @@ public class GradeCalculator {
             String[] fields = line.split(",");
             lectures.put(Integer.parseInt(fields[0]), new LectureInfo(fields[1], fields[2], Integer.parseInt(fields[3]), Integer.parseInt(fields[4])));
         }
+
+    }
+
+    private static void initializeGrades() {
+        In in = new In("grades.csv");
+        in.readLine(); // grades header
+        grades.put(1, in.readDouble());
+        grades.put(2, in.readDouble());
+        grades.put(3, in.readDouble());
+
+        in.readLine(); // pset header
+        grades.put(4, in.readDouble());
+        grades.put(5, in.readDouble());
+        grades.put(6, in.readDouble());
+
+
         totalEarnedPoints = grades.get(1);
         totalPossiblePoints = grades.get(2);
         inClassGrade = grades.get(3);
+
+        totalEarnedPSET = grades.get(4);
+        totalPossiblePSET = grades.get(5);
+        psetGrade = grades.get(6);
     }
 
          /**
