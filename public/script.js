@@ -1,9 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
+  console.log("DOM fully loaded and parsed");
+
   let currentStep = "step1";
   let selectedCategory = "";
   let dayNumber = "";
 
   const startStep = (category) => {
+    console.log(`Starting step for category: ${category}`);
     selectedCategory = category;
     document.getElementById("step1").style.display = "none";
     document.getElementById("step2").style.display = "block";
@@ -77,4 +80,11 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("nextButton").onclick = proceedStep2;
   document.getElementById("submitButton").onclick = submitPoints;
   document.getElementById("restartButton").onclick = restart;
+
+  // Initially display the first step
+  document.getElementById("step1").style.display = "block";
+  document.getElementById("step2").style.display = "none";
+  document.getElementById("step3").style.display = "none";
+  document.getElementById("result").style.display = "none";
+  console.log("Initial step set to step1");
 });
