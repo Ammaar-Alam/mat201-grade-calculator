@@ -45,6 +45,8 @@ document.addEventListener("DOMContentLoaded", () => {
       earnedPoints,
     };
 
+    console.log("Submitting points:", data);
+
     try {
       const response = await fetch("/update-grades", {
         method: "POST",
@@ -55,10 +57,16 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       const result = await response.json();
-      document.getElementById("step3").style.display = "none";
-      document.getElementById("result").style.display = "block";
-      document.getElementById("resultText").innerText = result.message;
-      currentStep = "result";
+      console.log("Server response:", result);
+
+      if (result.success) {
+        document.getElementById("step3").style.display = "none";
+        document.getElementById("result").style.display = "block";
+        document.getElementById("resultText").innerText = result.message;
+        currentStep = "result";
+      } else {
+        alert(result.message);
+      }
     } catch (error) {
       console.error("Error:", error);
       alert("Error updating grades.");
