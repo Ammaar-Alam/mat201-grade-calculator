@@ -1,14 +1,44 @@
 #!/bin/bash
 
-# Paths to the Java source files
-SRC_DIR="server"
-SRC_FILES="GradeCalculator.java LectureInfo.java PsetInfo.java"
+# Navigate to the directory where this script is located
+cd "$(dirname "$0")"
 
-# Path to the algs4.jar file (assuming it's in the server/libs directory)
-ALGS4_JAR_PATH="server/libs/algs4.jar"
+# Print the current working directory for debugging purposes
+echo "Current directory: $(pwd)"
 
-# Compile the Java files with the algs4.jar in the classpath
-javac -cp .:${ALGS4_JAR_PATH} ${SRC_DIR}/*.java
+# Set the classpath to include the required libraries
+LIBS_PATH="libs/algs4.jar"
 
-# Run the GradeCalculator class with the algs4.jar in the classpath
-java -cp .:${ALGS4_JAR_PATH} ${SRC_DIR}.GradeCalculator
+# Check if the server directory exists
+if [ ! -d "server" ]; then
+  echo "Error: server directory not found"
+  exit 1
+fi
+
+# Print the contents of the server directory for debugging purposes
+echo "Contents of server directory:"
+ls -l server
+
+# Compile the Java files and specify the destination directory for class files
+echo "Compiling Java files..."
+javac -cp "$LIBS_PATH" -d . server/*.java
+
+# Check if compilation was successful
+if [ $? -ne 0 ]; then
+  echo "Compilation failed"
+  exit 1
+fi
+
+echo "Compilation successful"
+
+# Run the main class
+echo "Running Java program..."
+java -cp ".:$LIBS_PATH" server.GradeCalculator $1 $2 $3
+
+# Check if execution was successful
+if [ $? -ne 0 ]; then
+  echo "Execution failed"
+  exit 1
+fi
+
+echo "Execution successful"

@@ -25,34 +25,60 @@ public class GradeCalculator {
     private static double finalExamGrade = 0; // Placeholder for final exam, which hasn't been taken yet
 
     public static void main(String[] args) {
-        initializeLectures();
-        initializePSETS();
-        initializeGrades();
-        calculateOverallGrade();
+        if (args.length == 0) {
+            initializeLectures();
+            initializePSETS();
+            initializeGrades();
+            calculateOverallGrade();
 
-        StdOut.println("Current In-Class Work Grade: " + inClassGrade + "%");
-        StdOut.println("Current PSET Grade: " + psetGrade + "%");
-        StdOut.println("Current Midterms Grade: " + midtermGrade + "%");
-        StdOut.println(
-            "Current Overall Class Grade (normalized): " + finalGrade + "%"
-        );
+            StdOut.println("Current In-Class Work Grade: " + inClassGrade + "%");
+            StdOut.println("Current PSET Grade: " + psetGrade + "%");
+            StdOut.println("Current Midterms Grade: " + midtermGrade + "%");
+            StdOut.println(
+                "Current Overall Class Grade (normalized): " + finalGrade + "%"
+            );
 
-        In in = new In();
-        StdOut.println("Please select which category you would like to update:");
-        StdOut.println("1: In-Class Grade\n2: PSET Grade\n3: Midterm Grade");
-        String choice = in.readString();
-        if (choice.equals("1")) runDialogueINCLASS();
-        else if (choice.equals("2")) runDialoguePSET();
-        else if (choice.equals("3")) runDialogueMIDTERM();
+            In in = new In();
+            StdOut.println("Please select which category you would like to update:");
+            StdOut.println("1: In-Class Grade\n2: PSET Grade\n3: Midterm Grade");
+            String choice = in.readString();
+            if (choice.equals("1")) runDialogueINCLASS();
+            else if (choice.equals("2")) runDialoguePSET();
+            else if (choice.equals("3")) runDialogueMIDTERM();
 
-        savePSETs();
-        saveLectures();
-        saveGrades();
-        calculateOverallGrade();
+            savePSETs();
+            saveLectures();
+            saveGrades();
+            calculateOverallGrade();
 
-        StdOut.println(
-            "Updated Overall Class Grade (normalized): " + finalGrade + "%"
-        );
+            StdOut.println(
+                "Updated Overall Class Grade (normalized): " + finalGrade + "%"
+            );
+        } else if (args.length == 3) {
+            // handle command-line arguments for updating grades
+            String category = args[0];
+            int number = Integer.parseInt(args[1]);
+            double earnedPoints = Double.parseDouble(args[2]);
+
+            switch (category.toLowerCase()) {
+                case "inclass":
+                    updateInClassGrade(number, (int) earnedPoints);
+                    break;
+                case "pset":
+                    updatePsetGrade(number, earnedPoints);
+                    break;
+                case "midterm":
+                    updateMidtermGrade(number, earnedPoints);
+                    break;
+                default:
+                    StdOut.println("Invalid category provided");
+            }
+
+            calculateOverallGrade();
+            savePSETs();
+            saveLectures();
+            saveGrades();
+        }
     }
 
     private static void runDialogueINCLASS() {
@@ -193,6 +219,7 @@ public class GradeCalculator {
         in.readLine(); // skipping header
         while (!in.isEmpty()) {
             String line = in.readLine();
+            if (line.trim().isEmpty()) continue; // skip empty lines
             String[] fields = line.split(",");
             int lectureNumber = Integer.parseInt(fields[0]);
             lectures.put(
@@ -213,6 +240,7 @@ public class GradeCalculator {
         int psetNumber = 1;
         while (!in.isEmpty()) {
             String line = in.readLine();
+            if (line.trim().isEmpty()) continue; // skip empty lines
             String[] fields = line.split(" ");
             double earnedPoints = Double.parseDouble(fields[0]);
             double possiblePoints = 30; // each PSET should have 30 possible points
@@ -225,33 +253,77 @@ public class GradeCalculator {
         In in = new In("server/grades.csv");
         in.readLine(); // skip in-class grades header
         String line = in.readLine();
-        String[] fields = line.split(" ");
-        totalEarnedPoints = Double.parseDouble(fields[0]);
-        totalPossiblePoints = Double.parseDouble(fields[1]);
-        inClassGrade = Double.parseDouble(fields[2]);
+        if (line != null && !line.trim().isEmpty()) {
+            String[] fields = line.split(" ");
+            totalEarnedPoints = Double.parseDouble(fields[0]);
+            totalPossiblePoints = Double.parseDouble(fields[1]);
+            inClassGrade = Double.parseDouble(fields[2]);
+        }
 
         in.readLine(); // skip pset grades header
         line = in.readLine();
-        fields = line.split(" ");
-        totalEarnedPSET = Double.parseDouble(fields[0]);
-        totalPossiblePSET = Double.parseDouble(fields[1]); // should be multiple of 30
-        psetGrade = Double.parseDouble(fields[2]);
+        if (line != null && !line.trim().isEmpty()) {
+            String[] fields = line.split(" ");
+            totalEarnedPSET = Double.parseDouble(fields[0]);
+            totalPossiblePSET = Double.parseDouble(fields[1]); // should be multiple of 30
+            psetGrade = Double.parseDouble(fields[2]);
+        }
 
         in.readLine(); // skip midterm grades header
         line = in.readLine();
-        fields = line.split(" ");
-        totalEarnedMidterm = Double.parseDouble(fields[0]);
-        if (fields.length > 1) {
-            totalPossibleMidterm = Double.parseDouble(fields[1]); // initialize if already in the file
-        }
-        if (fields.length > 2) {
-            midtermGrade = Double.parseDouble(fields[2]);
+        if (line != null && !line.trim().isEmpty()) {
+            String[] fields = line.split(" ");
+            totalEarnedMidterm = Double.parseDouble(fields[0]);
+            if (fields.length > 1) {
+                totalPossibleMidterm = Double.parseDouble(fields[1]); // initialize if already in the file
+            }
+            if (fields.length > 2) {
+                midtermGrade = Double.parseDouble(fields[2]);
+            }
         }
 
         in.readLine(); // skip final exam header
         finalExamGrade = 0; // final exam not taken yet
 
         calculateOverallGrade();
+    }
+
+    private static void updateInClassGrade(int lectureNumber, int dailyEarnedPoints) {
+        if (lectures.containsKey(lectureNumber)) {
+            LectureInfo li = lectures.get(lectureNumber);
+            totalEarnedPoints = totalEarnedPoints -
+            li.getEarnedPoints() +
+            dailyEarnedPoints;
+            li.updateDailyEarnedPoints(dailyEarnedPoints);
+        } else {
+            StdOut.println("Lecture number not found");
+        }
+    }
+
+    private static void updatePsetGrade(int psetNumber, double newEarnedPoints) {
+        if (psets.containsKey(psetNumber)) {
+            PsetInfo ps = psets.get(psetNumber);
+            totalEarnedPSET = totalEarnedPSET - ps.getPsetEarned() + newEarnedPoints;
+            ps.setPsetEarned(newEarnedPoints);
+        } else {
+            StdOut.println("PSET number not found");
+        }
+    }
+
+    private static void updateMidtermGrade(int midtermNumber, double newEarnedPoints) {
+        if (midtermNumber == 1 || midtermNumber == 2) {
+            if (midterms.containsKey(midtermNumber)) {
+                totalEarnedMidterm -= midterms.get(midtermNumber);
+            }
+
+            midterms.put(midtermNumber, newEarnedPoints);
+            totalEarnedMidterm += newEarnedPoints;
+
+            totalPossibleMidterm = 80 * midterms.size(); // assuming each midterm is 80 points
+            midtermGrade = (totalEarnedMidterm / totalPossibleMidterm) * 100;
+        } else {
+            StdOut.println("Invalid midterm number");
+        }
     }
 
     private static void calculateOverallGrade() {
