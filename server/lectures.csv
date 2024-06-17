@@ -11,7 +11,7 @@ LectureNumber,date,dayOfWeek,possiblePoints,earnedPoints
 10,June 14,Friday,0,0
 11,June 17,Monday,2,2
 12,June 18,Tuesday,2,0
-13,June 19,Wednesday,2,0
+13,June 19,Wednesday,0,0
 14,June 20,Thursday,2,0
 15,June 21,Friday,8,0
 16,June 24,Monday,2,0
