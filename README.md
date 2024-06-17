@@ -1,7 +1,3 @@
-Here is a detailed README for your MAT201 Grade Calculator project, following the example of your other webchat project.
-
----
-
 # MAT201 Grade Calculator
 
 ## Overview
